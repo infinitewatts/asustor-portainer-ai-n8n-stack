@@ -1,8 +1,8 @@
-# n8n + AI Starter Stack for Asustor NAS (No SSH Required)
+# n8n + AI Starter Stack for NAS (No SSH Required)
 
-A **production-ready template** to run n8n workflow automation with Ollama (AI), Qdrant (vector DB), and PostgreSQL on your Asustor NAS using Portainer's web interface.
+A **production-ready template** to run n8n workflow automation with Ollama (AI), Qdrant (vector DB), and PostgreSQL on your NAS using Portainer's web interface.
 
-![Asustor NAS Compatible](https://img.shields.io/badge/Asustor-ADM_4.0%2B-blue?logo=asustor&style=flat-square)
+![NAS Compatible](https://img.shields.io/badge/NAS-Asustor_|_Synology_|_QNAP-blue?style=flat-square)
 ![Portainer Required](https://img.shields.io/badge/Requires-Portainer_CE_2.18%2B-13bdfd?logo=portainer&style=flat-square)
 ![n8n](https://img.shields.io/badge/n8n-latest-FF6D5A?style=flat-square&logo=n8n)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791?style=flat-square&logo=postgresql)
@@ -21,11 +21,16 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 ## Features
 
 - **100% Web Interface Setup** - No terminal/SSH required
-- **Asustor ADM 4.0+ Optimized** - Verified on AS53/54/67 series
+- **Multi-NAS Support** - Works on Asustor, Synology, QNAP, and any NAS running Portainer
+- **Cloud AI Ready** - Optimized for OpenAI, Anthropic, Google APIs
 - **Secure Defaults** - Pre-configured with encryption & access controls
-- **LLM Ready** - Ollama + Llama 3.2 integration out-of-the-box
 - **Health Monitoring** - Built-in health checks for all services
-- **Resource Managed** - Memory limits prevent NAS overload
+- **Low Resource Usage** - Runs on 4GB RAM when using cloud AI
+
+### Tested On
+- **Asustor**: AS53/54/67 series, Flashstor FS6706T
+- **Synology**: Any model with Docker/Container Manager support
+- **QNAP**: Any model with Container Station support
 
 ## Service Versions
 
@@ -33,16 +38,33 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 |---------|---------|---------|
 | n8n | latest | Workflow automation |
 | PostgreSQL | 17-alpine | Database backend |
-| Ollama | latest | Local LLM inference |
+| Ollama | latest | Local LLM inference (slow on NAS) |
 | Qdrant | latest (v1.16+) | Vector database |
 | Cloudflared | latest | Secure tunnel |
+
+## AI Integration
+
+This stack is optimized for **cloud-based AI APIs** - the recommended approach for NAS deployments:
+
+| Provider | n8n Node | Use Case |
+|----------|----------|----------|
+| OpenAI | OpenAI, GPT | General purpose, GPT-4, DALL-E |
+| Anthropic | Claude | Long context, analysis, coding |
+| Google | Gemini | Multimodal, Google Workspace integration |
+
+Cloud APIs provide fast, reliable AI without taxing your NAS hardware.
+
+> **About Ollama**: Included for local experimentation, but NAS CPUs are too slow for practical use. Disable it to save ~4GB RAM if using cloud APIs only.
 
 ## Installation Guide
 
 ### Prerequisites
-1. Asustor NAS with [Portainer CE](https://www.asustor.com/en-gb/online/College_topic?topic=350) installed
-2. (Optional) [Cloudflare Tunnel](https://www.asustor.com/en-gb/online/College_topic?topic=349) for secure remote access
-3. Minimum 8GB RAM recommended (16GB+ for larger models)
+1. NAS with Docker support and Portainer CE 2.18+ installed:
+   - **Asustor**: Install via [App Central](https://www.asustor.com/en-gb/online/College_topic?topic=350)
+   - **Synology**: Use Container Manager (DSM 7.2+) or Docker package
+   - **QNAP**: Use Container Station
+2. (Optional) [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) for secure remote access
+3. Minimum 4GB NAS RAM (8GB+ recommended for heavier workloads)
 
 ### Step 1 - Prepare Environment File
 1. In Portainer, create new **Environment Variables**:
@@ -233,12 +255,15 @@ services:
 
 ## Memory Requirements
 
+This stack is designed for **cloud-based AI** (OpenAI, Anthropic, etc.), not local model inference. RAM requirements are modest:
+
 | NAS RAM | Recommendation |
 |---------|----------------|
-| 4GB | Not recommended - may experience issues |
-| 8GB | Minimum - use Llama 3.2 (3B) only |
-| 16GB | Recommended - can run larger models |
-| 32GB+ | Optimal - can run 13B+ models |
+| 4GB | Works fine for most workflows |
+| 8GB | Comfortable with room for other apps |
+| 16GB+ | Heavy workloads and multiple stacks |
+
+> **Note**: Ollama is included but optional. If you disable Ollama, the stack uses under 3GB RAM total.
 
 ## Updating
 
