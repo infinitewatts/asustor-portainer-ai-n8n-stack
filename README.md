@@ -22,17 +22,15 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 
 - **100% Web Interface Setup** - No terminal/SSH required
 - **Multi-NAS Support** - Works on Asustor, Synology, QNAP, and any NAS running Portainer
+- **Cloud AI Ready** - Optimized for OpenAI, Anthropic, Google APIs
 - **Secure Defaults** - Pre-configured with encryption & access controls
-- **Local LLM Option** - Ollama included (see performance note below)
 - **Health Monitoring** - Built-in health checks for all services
-- **Resource Managed** - Memory limits prevent NAS overload
+- **Low Resource Usage** - Runs on 4GB RAM when using cloud AI
 
 ### Tested On
 - **Asustor**: AS53/54/67 series, Flashstor FS6706T
 - **Synology**: Any model with Docker/Container Manager support
 - **QNAP**: Any model with Container Station support
-
-> **Performance Note on Ollama**: Running local LLMs via Ollama on NAS devices is **slow**. NAS CPUs (like Intel Celeron) lack the processing power for responsive AI inference. For production AI workflows, we recommend using **cloud-based LLM APIs** (OpenAI, Anthropic, etc.) instead. Ollama is included for experimentation but expect slow response times.
 
 ## Service Versions
 
@@ -44,16 +42,19 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 | Qdrant | latest (v1.16+) | Vector database |
 | Cloudflared | latest | Secure tunnel |
 
-## Recommended AI Setup
+## AI Integration
 
-For the best experience with AI workflows on your NAS:
+This stack is optimized for **cloud-based AI APIs** - the recommended approach for NAS deployments:
 
-| Option | Speed | Cost | Recommendation |
-|--------|-------|------|----------------|
-| **Cloud APIs** (OpenAI, Anthropic, Google) | Fast | Pay per use | **Recommended for production** |
-| **Ollama on NAS** | Slow | Free | Experimentation only |
+| Provider | n8n Node | Use Case |
+|----------|----------|----------|
+| OpenAI | OpenAI, GPT | General purpose, GPT-4, DALL-E |
+| Anthropic | Claude | Long context, analysis, coding |
+| Google | Gemini | Multimodal, Google Workspace integration |
 
-n8n has built-in nodes for OpenAI, Anthropic Claude, Google Gemini, and more. These provide much faster responses than running models locally on NAS hardware.
+Cloud APIs provide fast, reliable AI without taxing your NAS hardware.
+
+> **About Ollama**: Included for local experimentation, but NAS CPUs are too slow for practical use. Disable it to save ~4GB RAM if using cloud APIs only.
 
 ## Installation Guide
 
@@ -63,7 +64,7 @@ n8n has built-in nodes for OpenAI, Anthropic Claude, Google Gemini, and more. Th
    - **Synology**: Use Container Manager (DSM 7.2+) or Docker package
    - **QNAP**: Use Container Station
 2. (Optional) [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) for secure remote access
-3. Minimum 8GB NAS RAM recommended (16GB+ for larger models)
+3. Minimum 4GB NAS RAM (8GB+ recommended for heavier workloads)
 
 ### Step 1 - Prepare Environment File
 1. In Portainer, create new **Environment Variables**:
@@ -254,12 +255,15 @@ services:
 
 ## Memory Requirements
 
+This stack is designed for **cloud-based AI** (OpenAI, Anthropic, etc.), not local model inference. RAM requirements are modest:
+
 | NAS RAM | Recommendation |
 |---------|----------------|
-| 4GB | Not recommended - may experience issues |
-| 8GB | Minimum - use Llama 3.2 (3B) only |
-| 16GB | Recommended - can run larger models |
-| 32GB+ | Optimal - can run 13B+ models |
+| 4GB | Works fine for most workflows |
+| 8GB | Comfortable with room for other apps |
+| 16GB+ | Heavy workloads and multiple stacks |
+
+> **Note**: Ollama is included but optional. If you disable Ollama, the stack uses under 3GB RAM total.
 
 ## Updating
 
