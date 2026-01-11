@@ -1,8 +1,8 @@
-# n8n + AI Starter Stack for Asustor NAS (No SSH Required)
+# n8n + AI Starter Stack for NAS (No SSH Required)
 
-A **production-ready template** to run n8n workflow automation with Ollama (AI), Qdrant (vector DB), and PostgreSQL on your Asustor NAS using Portainer's web interface.
+A **production-ready template** to run n8n workflow automation with Ollama (AI), Qdrant (vector DB), and PostgreSQL on your NAS using Portainer's web interface.
 
-![Asustor NAS Compatible](https://img.shields.io/badge/Asustor-ADM_4.0%2B-blue?logo=asustor&style=flat-square)
+![NAS Compatible](https://img.shields.io/badge/NAS-Asustor_|_Synology_|_QNAP-blue?style=flat-square)
 ![Portainer Required](https://img.shields.io/badge/Requires-Portainer_CE_2.18%2B-13bdfd?logo=portainer&style=flat-square)
 ![n8n](https://img.shields.io/badge/n8n-latest-FF6D5A?style=flat-square&logo=n8n)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791?style=flat-square&logo=postgresql)
@@ -21,11 +21,16 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 ## Features
 
 - **100% Web Interface Setup** - No terminal/SSH required
-- **Asustor ADM 4.0+ Optimized** - Verified on AS53/54/67 series and Flashstor FS6706T
+- **Multi-NAS Support** - Works on Asustor, Synology, QNAP, and any NAS running Portainer
 - **Secure Defaults** - Pre-configured with encryption & access controls
 - **Local LLM Option** - Ollama included (see performance note below)
 - **Health Monitoring** - Built-in health checks for all services
 - **Resource Managed** - Memory limits prevent NAS overload
+
+### Tested On
+- **Asustor**: AS53/54/67 series, Flashstor FS6706T
+- **Synology**: Any model with Docker/Container Manager support
+- **QNAP**: Any model with Container Station support
 
 > **Performance Note on Ollama**: Running local LLMs via Ollama on NAS devices is **slow**. NAS CPUs (like Intel Celeron) lack the processing power for responsive AI inference. For production AI workflows, we recommend using **cloud-based LLM APIs** (OpenAI, Anthropic, etc.) instead. Ollama is included for experimentation but expect slow response times.
 
@@ -53,9 +58,12 @@ n8n has built-in nodes for OpenAI, Anthropic Claude, Google Gemini, and more. Th
 ## Installation Guide
 
 ### Prerequisites
-1. Asustor NAS with [Portainer CE](https://www.asustor.com/en-gb/online/College_topic?topic=350) installed
-2. (Optional) [Cloudflare Tunnel](https://www.asustor.com/en-gb/online/College_topic?topic=349) for secure remote access
-3. Minimum 8GB RAM recommended (16GB+ for larger models)
+1. NAS with Docker support and Portainer CE 2.18+ installed:
+   - **Asustor**: Install via [App Central](https://www.asustor.com/en-gb/online/College_topic?topic=350)
+   - **Synology**: Use Container Manager (DSM 7.2+) or Docker package
+   - **QNAP**: Use Container Station
+2. (Optional) [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) for secure remote access
+3. Minimum 8GB NAS RAM recommended (16GB+ for larger models)
 
 ### Step 1 - Prepare Environment File
 1. In Portainer, create new **Environment Variables**:
