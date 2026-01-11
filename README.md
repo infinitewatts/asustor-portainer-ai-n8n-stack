@@ -21,11 +21,13 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 ## Features
 
 - **100% Web Interface Setup** - No terminal/SSH required
-- **Asustor ADM 4.0+ Optimized** - Verified on AS53/54/67 series
+- **Asustor ADM 4.0+ Optimized** - Verified on AS53/54/67 series and Flashstor FS6706T
 - **Secure Defaults** - Pre-configured with encryption & access controls
-- **LLM Ready** - Ollama + Llama 3.2 integration out-of-the-box
+- **Local LLM Option** - Ollama included (see performance note below)
 - **Health Monitoring** - Built-in health checks for all services
 - **Resource Managed** - Memory limits prevent NAS overload
+
+> **Performance Note on Ollama**: Running local LLMs via Ollama on NAS devices is **slow**. NAS CPUs (like Intel Celeron) lack the processing power for responsive AI inference. For production AI workflows, we recommend using **cloud-based LLM APIs** (OpenAI, Anthropic, etc.) instead. Ollama is included for experimentation but expect slow response times.
 
 ## Service Versions
 
@@ -33,9 +35,20 @@ A **production-ready template** to run n8n workflow automation with Ollama (AI),
 |---------|---------|---------|
 | n8n | latest | Workflow automation |
 | PostgreSQL | 17-alpine | Database backend |
-| Ollama | latest | Local LLM inference |
+| Ollama | latest | Local LLM inference (slow on NAS) |
 | Qdrant | latest (v1.16+) | Vector database |
 | Cloudflared | latest | Secure tunnel |
+
+## Recommended AI Setup
+
+For the best experience with AI workflows on your NAS:
+
+| Option | Speed | Cost | Recommendation |
+|--------|-------|------|----------------|
+| **Cloud APIs** (OpenAI, Anthropic, Google) | Fast | Pay per use | **Recommended for production** |
+| **Ollama on NAS** | Slow | Free | Experimentation only |
+
+n8n has built-in nodes for OpenAI, Anthropic Claude, Google Gemini, and more. These provide much faster responses than running models locally on NAS hardware.
 
 ## Installation Guide
 
